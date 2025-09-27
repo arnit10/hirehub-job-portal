@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Candidate Signup</title>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="w-full max-w-lg bg-white rounded-2xl shadow-lg p-8">
+        <h1 class="text-3xl font-bold text-gray-800 text-center mb-6">Sign Up </h1>
+        <form method="POST" enctype="multipart/form-data" class="space-y-4">
+            {% csrf_token %}
+            
+            {% for field in form %}
+                <div>
+                    <label class="block text-sm font-medium tetx-gray-700" for="name">{{field.label}}</label>
+                    {{field}}
+                    {% if field.errors %}
+                        <p class="text-red-500 text-sm mt-1">{{ field.errors|striptags }}</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <button class="w-full py-3 bg-indigo-600 text-white font-semibold rounded-lg hover: bg-indigo-700 transition" type="submit">Signup</button>
+        </form>
+    </div>
+</body>
+</html>

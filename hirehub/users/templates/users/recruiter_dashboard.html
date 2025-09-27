@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Recruiter Dashboard{% endblock %}
+
+{% block content %}
+
+<h1 class="text-2xl font-bold mb-4">Welcome, {{ profile.company_name }}</h1>
+
+<p>Email: {{ request.user.email }}</p>
+<p>Phone: {{ profile.phone_number }}</p>
+<p>Address: {{ profile.address }}</p>
+
+<a href="{% url 'recruiter_profile' %}" 
+   class="text-indigo-600 hover:underline mb-4 inline-block">Edit Profile</a>
+
+<hr class="my-4">
+
+<h2 class="text-xl font-bold mb-4">Posted Jobs</h2>
+
+<a href="{% url 'job_create' %}" 
+   class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 mb-4 inline-block">
+   + Post a New Job
+</a>
+
+<ul class="divide-y divide-gray-200 mt-4">
+  {% for job in jobs %}
+    <li class="py-2 flex justify-between items-center">
+      <div>
+        <a href="{% url 'job_applicants' job.id %}" 
+           class="text-indigo-600 hover:underline font-medium">
+           {{ job.title }}
+        </a>
+        <p class="text-sm text-gray-500">Posted on {{ job.created_at|date:"M d, Y" }}</p>
+      </div>
+      <div class="space-x-2">
+        <a href="{% url 'job_edit' job.id %}" class="text-blue-600 hover:underline">Edit</a>
+        <a href="{% url 'job_delete' job.id %}" class="text-red-600 hover:underline">Delete</a>
+      </div>
+    </li>
+  {% empty %}
+    <p>No jobs posted yet. Start by posting your first job!</p>
+  {% endfor %}
+</ul>
+
+{% endblock %}
+  

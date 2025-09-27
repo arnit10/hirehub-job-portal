@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Post a Job | HireHub{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto mt-10 bg-white shadow-md rounded-lg p-6">
+    <h2 class="text-2xl font-bold text-center text-indigo-600 mb-6">Post a New Job</h2>
+
+    <form method="POST" class="space-y-4">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <div>
+            <label for="{{ form.title.id_for_label }}" class="block text-sm font-medium text-gray-700">Job Title</label>
+            {{ form.title }}
+        </div>
+
+        <div>
+            <label for="{{ form.description.id_for_label }}" class="block text-sm font-medium text-gray-700">Description</label>
+            {{ form.description }}
+        </div>
+
+        <div>
+            <label for="{{ form.location.id_for_label }}" class="block text-sm font-medium text-gray-700">Location</label>
+            {{ form.location }}
+        </div>
+
+        <div>
+            <label for="{{ form.salary.id_for_label }}" class="block text-sm font-medium text-gray-700">Salary</label>
+            {{ form.salary }}
+        </div>
+
+        <button type="submit" class="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700">
+            Post Job
+        </button>
+    </form>
+
+    <p class="text-center text-sm text-gray-600 mt-4">
+        <a href="{% url 'recruiter_dashboard' %}" class="text-indigo-600 hover:underline">Back to Dashboard</a>
+    </p>
+</div>
+{% endblock %}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}HireHub{% endblock %}</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="/" class="text-xl font-bold text-indigo-600">HireHub</a>
+            
+            <div class="space-x-4">
+                <a href="/" class="text-gray-700 hover:text-indigo-600">Home</a>
+                {% if user.is_authenticated%}
+                    {% if user.is_candidate %}
+                    <a href="{% url 'candidate_dashboard' %}" class="text-gray-700 hover:text-indigo-600">Profile</a>
+                    <a href="{% url 'saved_jobs' %}" class="text-gray-700 hover:text-indigo-600">Saved Jobs</a>
+                    {% elif user.is_recruiter %}
+                    <a href="{% url 'recruiter_dashboard' %}" class="text-gray-700 hover:text-indigo-600">Dashboard</a>
+                    {% endif %}
+                    <a href="{% url 'user_logout'%}" class="text-gray-700 hover:text-red-600">Logout</a>
+                    
+                {% else %}
+                    <a href="{% url 'user_signup' %}" class="text-gray-700 hover:text-indigo-600">Signup</a>
+                    <a href="{% url 'user_login' %}" class="text-gray-700 hover:text-indigo-600">Login</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    {% if messages %}
+        <div class="max-w-3xl mx-auto mt-4">
+            {% for message in messages %}
+                <div class="p-3 mb-2 rounded-md 
+                    {% if message.tags == 'success' %} bg-green-100 text-green-800 
+                    {% elif message.tags == 'error' %} bg-red-100 text-red-800 
+                    {% else %} bg-gray-100 text-gray-800 {% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white shadow-inner mt-10">
+        <div class="max-w-7xl mx-auto px-4 py-4 text-center text-gray-500">
+            &copy; 2025 HireHub. All rights reserved.
+        </div>
+    </footer>
+
+</body>
+</html>

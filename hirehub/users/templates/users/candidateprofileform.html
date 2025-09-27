@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto bg-white shadow-md rounded-lg p-6 mt-10">
+    <h2 class="text-2xl font-bold mb-6 text-center">Complete Your Candidate Profile</h2>
+    
+    <form method="post" enctype="multipart/form-data" class="space-y-4">
+        {% csrf_token %}
+        <div>
+            <label class="block text-gray-700">Full Name</label>
+            {{ form.full_name }}
+        </div>
+        <div>
+            <label class="block text-gray-700">Phone Number</label>
+            {{ form.phone_number }}
+        </div>
+        <div>
+            <label class="block text-gray-700">Skills</label>
+            {{ form.skills }}
+        </div>
+        <div>
+            <label class="block text-gray-700">Experience (in years)</label>
+            {{ form.experience }}
+        </div>
+        <div>
+            <label class="block text-gray-700">Upload Resume</label>
+            {{ form.resume }}
+        </div>
+        <div class="text-center">
+            <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700">
+                Save Profile
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

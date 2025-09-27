@@ -1,0 +1,12 @@
+<h2 class="text-xl font-bold mb-4">My Jobs</h2>
+<ul>
+  {% for job in jobs %}
+    <li class="mb-2">
+      <a href="{% url 'job_applicants' job.id %}" class="text-indigo-600 hover:underline">
+        {{ job.title }}
+      </a>
+    </li>
+  {% empty %}
+    <p>No jobs posted yet.</p>
+  {% endfor %}
+</ul>

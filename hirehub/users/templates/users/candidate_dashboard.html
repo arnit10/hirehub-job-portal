@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Candidate Dashboard{% endblock %}
+
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">Welcome, {{ profile.full_name }}</h1>
+
+<p>Email: {{ request.user.email }}</p>
+<p>Phone: {{ profile.phone_number }}</p>
+<p>Skills: {{ profile.skills }}</p>
+<p>Experience: {{ profile.experience }} years</p>
+
+<a href="{% url 'candidate_profile' %}" class="text-indigo-600 hover:underline">Edit Profile</a>
+
+<h1 class="text-2xl font-bold mb-4">Jobs You've Applied To</h1>
+
+{% if applications %}
+<div class="overflow-x-auto">
+  <table class="min-w-full border border-gray-200 divide-y divide-gray-200">
+    <thead class="bg-gray-100">
+      <tr>
+        <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Job Title</th>
+        <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Company</th>
+        <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Location</th>
+        <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Applied On</th>
+        <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Status</th>
+      </tr>
+    </thead>
+    <tbody class="bg-white divide-y divide-gray-200">
+      {% for app in applications %}
+      <tr>
+        <td class="px-4 py-2">{{ app.job.title }}</td>
+        <td class="px-4 py-2">{{ app.job.recruiter.recruiterprofile.company_name }}</td>
+        <td class="px-4 py-2">{{ app.job.location }}</td>
+        <td class="px-4 py-2">{{ app.applied_at|date:"M d, Y H:i" }}</td>
+        <td>
+      {% if app.status == "applied" %}
+        <span class="text-blue-600 font-semibold">Applied</span>
+      {% elif app.status == "seen" %}
+        <span class="text-gray-600 font-semibold">Seen</span>
+      {% elif app.status == "shortlisted" %}
+        <span class="text-green-600 font-semibold">Shortlisted</span>
+      {% elif app.status == "rejected" %}
+        <span class="text-red-600 font-semibold">Rejected</span>
+      {% else %}
+        <span>{{ app.status }}</span>
+      {% endif %}
+    </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<p class="text-gray-500">You haven't applied to any jobs yet.</p>
+{% endif %}
+
+{% endblock %}

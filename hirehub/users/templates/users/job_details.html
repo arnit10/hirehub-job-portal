@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto mt-10 bg-white shadow-md rounded-lg p-6">
+    <h1 class="text-2xl font-bold text-indigo-600">{{ job.title }}</h1>
+    <p class="text-gray-600 mt-2"><strong>Location:</strong> {{ job.location }}</p>
+    <p class="text-gray-600"><strong>Salary:</strong> ₹{{ job.salary }}</p>
+    <p class="text-gray-600"><strong>Posted on:</strong> {{ job.created_at|date:"M d, Y" }}</p>
+
+    <hr class="my-4">
+
+    <p class="text-gray-800 leading-relaxed">{{ job.description }}</p>
+
+    <div class="mt-6">
+        {% if user.is_authenticated and user.role == "J" %}
+            {% if application %}
+                <p class="mt-4 text-green-600 font-semibold">
+                    ✅ You already applied on {{ application.applied_at|date:"d M Y, H:i" }}
+                </p>
+            {% else %}
+                <form action="{% url 'apply_job' job.id %}" method="post" class="mt-4">
+                    {% csrf_token %}
+                    <button type="submit" 
+                        class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">
+                        Apply Now
+                    </button>
+                </form>
+                
+            {% endif %}
+        {% else %}
+            <p class="text-gray-500 text-sm">Login as Job Seeker to apply.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

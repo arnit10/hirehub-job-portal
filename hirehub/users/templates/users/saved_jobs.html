@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Saved Jobs{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto mt-6 bg-white p-6 rounded shadow">
+    <h2 class="text-2xl font-bold mb-4">Your Saved Jobs</h2>
+
+    {% if saved_jobs %}
+        <ul class="divide-y divide-gray-200">
+            {% for saved in saved_jobs %}
+                <li class="py-4">
+                    <h3 class="text-xl font-semibold">{{ saved.job.title }}</h3>
+                    <p class="text-gray-600">{{ saved.job.location }}</p>
+                    <p class="text-gray-500">Saved on {{ saved.saved_at|date:"M d, Y H:i" }}</p>
+                    <a href="{% url 'job_details' saved.job.id %}" 
+                       class="text-indigo-600 hover:underline">View Job</a>
+
+                    <div>
+                        <a href="{% url 'unsave_job' saved.job.id %}" 
+                        class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
+                        Unsave
+                        </a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="text-gray-500">No saved jobs yet.</p>
+    {% endif %}
+</div>
+{% endblock %}
